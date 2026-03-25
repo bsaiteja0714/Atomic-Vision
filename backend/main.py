@@ -7,6 +7,7 @@ OCR is used only for raw text display; all smart analysis is done by Gemini.
 import os
 import re
 import json
+from dotenv import load_dotenv
 
 from pathlib import Path
 from typing import Optional
@@ -31,8 +32,11 @@ DEBUG = True
 TEMP_DIR = Path("./temp")
 TEMP_DIR.mkdir(exist_ok=True)
 
-# Gemini API Key
-GEMINI_API_KEY = "AIzaSyAwljmlC18GIp14XNT2ZEGrXpLcxwwgW_w"
+# Gemini API Key (loaded from .env file)
+load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise RuntimeError("GEMINI_API_KEY not found. Create a .env file with your key.")
 client = genai.Client(api_key=GEMINI_API_KEY)
 GEMINI_MODEL = "gemini-2.5-flash"
 

@@ -20,6 +20,9 @@ temp/
 Thumbs.db
 .DS_Store
 
+# Environment / Secrets
+.env
+
 # Test artifacts
 pytesseract_test_output.txt
 index_check.html
