@@ -28,16 +28,28 @@ from pydantic import BaseModel
 # ============================================================================
 # CONFIG
 # ============================================================================
-DEBUG = True
-TEMP_DIR = Path("./temp")
-TEMP_DIR.mkdir(exist_ok=True)
+DEBUG = False
+TEMP_DIR = Path("/tmp")
+try:
+    TEMP_DIR.mkdir(exist_ok=True)
+except Exception:
+    pass
 
 # Gemini API Key (loaded from .env file)
-load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
+try:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
+except ImportError:
+    pass
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise RuntimeError("GEMINI_API_KEY not found. Create a .env file with your key.")
-client = genai.Client(api_key=GEMINI_API_KEY)
+client = None
+if GEMINI_API_KEY:
+    try:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+    except Exception as e:
+        print(f"Failed to init Gemini Client: {e}")
+
 GEMINI_MODEL = "gemini-2.5-flash"
 
 # Tesseract (for raw OCR text display only)
@@ -167,6 +179,8 @@ Rules:
 
 def analyze_with_gemini(img_bytes: bytes) -> dict:
     """Send image directly to Gemini Vision and get structured analysis."""
+    if not client:
+        raise HTTPException(status_code=500, detail="Gemini API Key is missing. Please set GEMINI_API_KEY in Vercel Environment Variables.")
     raw_response = "(no response received)"
     try:
         response = client.models.generate_content(
