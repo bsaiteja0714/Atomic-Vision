@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atomic Vision</title>
+
+  <!-- Nothing-style fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <h1>ATOMIC·VISION</h1>
+  <button id="themeToggle">◐</button>
+</header>
+
+<main class="container">
+
+  <!-- LEFT: UPLOAD -->
+  <section class="upload-panel">
+    <div id="dropArea" tabindex="0">
+      <p>Drag & Drop image<br>or click to upload</p>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+    </div>
+    <p id="status">Waiting for input…</p>
+  </section>
+
+  <!-- RIGHT: RESULTS -->
+  <section class="result-panel hidden" id="resultPanel">
+
+    <div class="card">
+      <h3>OCR TEXT</h3>
+      <pre id="ocrText">—</pre>
+    </div>
+
+    <div class="card">
+      <h3>METADATA</h3>
+      <p><strong>Title:</strong> <span id="title">—</span></p>
+      <p><strong>Author:</strong> <span id="author">—</span></p>
+    </div>
+
+    <div class="card">
+      <h3>BEST QUOTE</h3>
+      <p id="quote">—</p>
+    </div>
+
+    <div class="card">
+      <h3>SUMMARY</h3>
+      <ul id="summary"></ul>
+    </div>
+
+    <div class="card">
+      <h3>CONTEXT</h3>
+      <p id="context">—</p>
+    </div>
+
+    <div class="card">
+      <h3>DIFFICULT WORDS</h3>
+      <ul id="difficultWords"></ul>
+    </div>
+
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
